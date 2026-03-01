@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="kk"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-id="th-modified">Табиғи Сүт Өнімдері | Үйдегі таза дәм</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Rubik', sans-serif; }
+        body {
+            background:#fdfaf5;
+            color:#333;
+            line-height:1.6;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.dark {
+            background:#0f0f0f;
+            color:#e0e0e0;
+        }
+        body.dark header { background:#1a1a1a; }
+        body.dark .card { background:#1e1e1e; }
+        body.dark .hero { background: linear-gradient(135deg, #1a1a1a, #2a1a1a); }
+
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky; top:0; z-index:1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .container { width:90%; max-width:1240px; margin:auto; }
+
+        .header-flex { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+        .logo-img { height:65px; }
+
+        nav a { margin:0 1.2rem; text-decoration:none; color:#444; font-weight:600; transition:0.3s; }
+        nav a:hover { color:#d35400; }
+        .dark-toggle { background:#d35400; color:white; border:none; padding:0.7rem 1.4rem; border-radius:50px; cursor:pointer; }
+
+        .hero {
+            padding:8rem 0 6rem;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1626198632288-3e2e3b3f0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color:white;
+            text-align:center;
+        }
+        .hero h1 { font-size:3.5rem; font-weight:800; margin-bottom:1rem; text-shadow:0 2px 10px rgba(0,0,0,0.6); }
+        .hero p { font-size:1.4rem; max-width:700px; margin:0 auto 2rem; }
+        .hero .cta { background:#d35400; color:white; padding:1rem 2.5rem; border:none; border-radius:50px; font-size:1.3rem; font-weight:700; cursor:pointer; transition:0.3s; }
+        .hero .cta:hover { background:#b34700; transform:scale(1.05); }
+
+        .section-title { text-align:center; font-size:2.5rem; font-weight:800; color:#c62828; margin:4rem 0 2.5rem; }
+
+        .product-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(320px,1fr));
+            gap:2rem;
+        }
+        .card {
+            background:white;
+            border-radius:24px;
+            overflow:hidden;
+            box-shadow:0 12px 40px rgba(0,0,0,0.08);
+            transition:0.4s;
+        }
+        body.dark .card { background:#222; }
+        .card:hover { transform:translateY(-12px); box-shadow:0 24px 60px rgba(0,0,0,0.15); }
+        .card img { width:100%; height:280px; object-fit:cover; }
+        .card-content { padding:1.8rem; text-align:center; }
+        .card h3 { font-size:1.8rem; color:#d35400; margin-bottom:0.8rem; }
+        .card p { font-size:1.4rem; color:#555; font-weight:600; }
+        .card button { width:100%; margin-top:1.2rem; padding:1rem; background:#d35400; color:white; border:none; border-radius:12px; font-size:1.2rem; cursor:pointer; }
+
+        .limited-stock .stock-grid { grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); }
+        .stock-card {
+            background: linear-gradient(135deg, #fff8e1, #fffde7);
+            border-radius:24px;
+            padding:2rem;
+            text-align:center;
+            border:2px solid #ffb74d;
+            position:relative;
+            overflow:hidden;
+        }
+        .stock-card img { width:140px; height:140px; object-fit:cover; border-radius:16px; margin-bottom:1rem; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+        .stock-card h3 { font-size:2rem; color:#ef6c00; }
+        .stock-card .qty { font-size:2.5rem; font-weight:900; color:#d32f2f; margin:0.8rem 0; }
+        .stock-card .warn { color:#ef6c00; font-weight:600; }
+
+        form {
+            background:white;
+            padding:3rem 2rem;
+            border-radius:24px;
+            box-shadow:0 12px 50px rgba(0,0,0,0.08);
+            margin:4rem auto;
+            max-width:700px;
+        }
+        form label { display:block; font-weight:600; color:#444; margin:1.5rem 0 0.6rem; }
+        form input, form select {
+            width:100%; padding:1.2rem; border:2px solid #ddd; border-radius:12px; font-size:1.1rem;
+        }
+        .total-price { font-size:1.6rem; font-weight:700; color:#d35400; text-align:center; margin:1.5rem 0; }
+        form button { width:100%; padding:1.4rem; background:#d35400; color:white; border:none; border-radius:12px; font-size:1.4rem; font-weight:700; cursor:pointer; }
+
+        #floating-cta {
+            position:fixed; bottom:1.5rem; right:1.5rem;
+            background:#d35400; color:white; padding:1rem 1.8rem; border-radius:50px;
+            font-weight:700; box-shadow:0 6px 20px rgba(211,84,0,0.3);
+            z-index:999; cursor:pointer; display:none;
+        }
+
+        @media (max-width:768px) {
+            .hero { padding:6rem 0 4rem; }
+            .hero h1 { font-size:2.8rem; }
+            .section-title { font-size:2rem; }
+            #floating-cta { display:block; }
+        }
+    </style>
+<meta property="og:title" content="Табиғи Сүт Өнімдері | Үйдегі таза дәм" data-id="th-modified"><meta name="description" content="birzhan.product.index" data-id="th-modified"><meta property="og:description" content="birzhan.product.index" data-id="th-modified"><meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified"><meta property="og:url" content="https://shubataktau.tiiny.site/" data-id="th-modified"><meta property="og:type" content="website" data-id="th-modified"><script type="text/javascript" src="https://tiiny.host/ad-script.js"></script><script defer="" data-domain="shubataktau.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
+<body data-tiiny-click-handler="true"><div style="position: fixed !important; bottom: 0% !important; left: 0% !important; right: 0% !important; width: 100% !important; height: 55px !important; z-index: 9999 !important;"><a href="https://tiiny.host?ref=free-site">
+    <div style="padding: 10px !important; height: 55px; text-align: center; background: rgb(220,137,232) !important; background: linear-gradient(141deg, rgba(220,137,232,1) 0%, rgba(144,64,204,1) 100%) !important;">
+      <img style="height: 35px !important; width: auto !important;" src="https://tiiny.host/assets/img/ad.png" alt="tiiny.host">
+    </div>
+  </a></div>
+
+<header data-tiiny-click-handler="true">
+    <div class="container header-flex" data-tiiny-click-handler="true">
+        <img src="https://shubataktau.tiiny.site/images/1771804100141-image-fafdfbd.png" alt="Логотип" class="logo-img">
+        <nav>
+            <a href="#products" class="">Өнімдер</a>
+            <a href="#order" class="">Тапсырыс</a>
+        </nav>
+        <button class="dark-toggle" id="darkBtn">Қараңғы</button>
+    </div>
+</header>
+
+<section class="hero" data-tiiny-click-handler="true">
+    <div class="container" data-tiiny-click-handler="true">
+        <h1 class="">Табиғи таза сүт өнімдері</h1>
+        <p class="ablefocused" data-tiiny-click-handler="true" >Үй жағдайында, 100% табиғи — Астана бойынша&nbsp; жеткізу бар</p>
+        <button class="cta " onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Қазір тапсырыс беру</button>
+    </div>
+</section>
+
+<section id="products" class="container">
+    <h2 class="section-title" data-tiiny-click-handler="true">Біздің өнімдер</h2>
+    <div class="product-grid">
+        <div class="card">
+            <img src="https://i.ibb.co/MDc0wrLq/Whats-App-2025-12-06-19-54-55-0bb78286.jpg" alt="Шұбат" class="">
+            <div class="card-content">
+                <h3>Шұбат</h3>
+                <p>1 литр — 2 000 тг</p>
+                <button onclick="selectProduct('Шұбат', 2000)">Таңдау</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://comode.kz/media/images/images/IMG-20160826-WA0002(1).jpg" alt="Балқаймақ" class="">
+            <div class="card-content" data-tiiny-click-handler="true">
+                <h3>Балқаймақ</h3>
+                <p>500 г — 5 000 тг</p>
+                <button onclick="selectProduct('Балқаймақ', 5000)" class="">Таңдау</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRnXiBPqCNRbuvk5krjCycOXIW5gKYKA5ppQ&amp;s" alt="Құрт" class="">
+            <div class="card-content">
+                <h3>Құрт</h3>
+                <p>1 кг — 10 000 тг</p>
+                <button onclick="selectProduct('Құрт', 10000)">Таңдау</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="limited-stock container">
+    <h2 class="section-title">&nbsp; &nbsp; &nbsp;Соңғы қалған өнімдер</h2>
+    <div class="stock-grid product-grid">
+        <div class="stock-card">
+            <img src="https://i.ibb.co/MDc0wrLq/Whats-App-2025-12-06-19-54-55-0bb78286.jpg" alt="Шұбат">
+            <h3 class="">Шұбат</h3>
+            <p class="qty">Соңғы 8 литр</p>
+            <p class="warn"><br></p>
+        </div>
+        <div class="stock-card" data-tiiny-click-handler="true">
+            <img src="https://comode.kz/media/images/images/IMG-20160826-WA0002(1).jpg" alt="Балқаймақ" class="">
+            <h3 class="" data-tiiny-click-handler="true">Балқаймақ</h3>
+            <p class="qty">Соңғы 4 дана</p>
+            <p class="warn"><br></p>
+        </div>
+        <div class="stock-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRnXiBPqCNRbuvk5krjCycOXIW5gKYKA5ppQ&amp;s" alt="Құрт">
+            <h3>Құрт</h3>
+            <p class="qty">Соңғы 3 кг</p>
+            <p class="warn"><br></p>
+        </div>
+    </div>
+</section>
+
+<section id="order" class="container" data-tiiny-click-handler="true">
+    <form id="orderForm" data-tiiny-click-handler="true">
+        <h2 class="section-title" data-tiiny-click-handler="true">Тапсырыс беру</h2>
+        
+        <label class="" data-tiiny-click-handler="true" >Аты-жөніңіз:</label>
+        <input type="text" id="name" placeholder="Мысалы: Әбділда Нұрланұлы" required="" data-tiiny-click-handler="true">
+
+        <label class="" data-tiiny-click-handler="true">Телефон:</label>
+        <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required="" data-tiiny-click-handler="true">
+
+        <label class="" data-tiiny-click-handler="true">Мекен-жай:</label>
+        <input type="text" id="address" placeholder="Астана, көше, үй, пәтер" required="" data-tiiny-click-handler="true">
+
+        <label class="" data-tiiny-click-handler="true">Өнім:</label>
+        <select id="product" onchange="updatePrice()" data-tiiny-click-handler="true">
+            <option value="Шұбат|2000">Шұбат — 2000 тг / литр</option>
+            <option value="Балқаймақ|5000">Балқаймақ — 5000 тг / дана</option>
+            <option value="Құрт|10000">Құрт — 10000 тг / кг</option>
+        </select>
+
+        <label id="amountLabel">Саны (литр):</label>
+        <input type="number" id="amount" min="1" value="1" required="" oninput="updatePrice()">
+
+        <p class="total-price" id="totalPrice">Жалпы: 2&nbsp;000 тг</p>
+
+        <button type="submit">WhatsApp арқылы жіберу</button>
+    </form>
+</section>
+
+<button id="floating-cta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Тапсырыс беру</button>
+
+<script>
+    // Dark mode
+    const body = document.body;
+    const darkBtn = document.getElementById("darkBtn");
+    if (localStorage.getItem("dark") === "on") {
+        body.classList.add("dark");
+        darkBtn.textContent = "Жарық";
+    }
+    darkBtn.onclick = () => {
+        body.classList.toggle("dark");
+        localStorage.setItem("dark", body.classList.contains("dark") ? "on" : "off");
+        darkBtn.textContent = body.classList.contains("dark") ? "Жарық" : "Қараңғы";
+    };
+
+    // Phone mask
+    document.getElementById("phone").addEventListener("input", e => {
+        let v = e.target.value.replace(/\D/g, "");
+        if (v.length > 1) v = v.slice(0,11);
+        let f = "+7 (";
+        if (v.length > 1) f += v.slice(1,4);
+        if (v.length >= 4) f += ") " + v.slice(4,7);
+        if (v.length >= 7) f += "-" + v.slice(7,9);
+        if (v.length >= 9) f += "-" + v.slice(9);
+        e.target.value = f;
+    });
+
+    // Product select & price calc
+    function updatePrice() {
+        const select = document.getElementById("product");
+        const amount = parseInt(document.getElementById("amount").value) || 1;
+        const [name, priceStr] = select.value.split("|");
+        const price = parseInt(priceStr);
+        const total = price * amount;
+        document.getElementById("totalPrice").textContent = `Жалпы: ${total.toLocaleString()} тг`;
+        document.getElementById("amountLabel").textContent = name === "Шұбат" ? "Саны (литр):" : name === "Балқаймақ" ? "Саны (дана):" : "Саны (кг):";
+    }
+    updatePrice();
+
+    function selectProduct(name, price) {
+        const select = document.getElementById("product");
+        select.value = `${name}|${price}`;
+        updatePrice();
+        document.getElementById("order").scrollIntoView({behavior:"smooth"});
+    }
+
+    // WhatsApp submit
+    document.getElementById("orderForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const [product] = document.getElementById("product").value.split("|");
+        const amount = document.getElementById("amount").value;
+        const total = document.getElementById("totalPrice").textContent;
+
+        const msg = `Жаңа тапсырыс!%0A%0AАты: ${name}%0AТелефон: ${phone}%0AМекенжай: ${address}%0AӨнім: ${product}%0AСаны: ${amount}%0A${total}%0A%0AРахмет!`;
+        window.open(`https://api.whatsapp.com/send?phone=77781630002&text=${msg}`, "_blank");
+        alert("Тапсырыс жіберілді! Жақын арада хабарласамыз.");
+    });
+</script>
+
+
+<div style="height: 55px !important;"></div></body></html>
